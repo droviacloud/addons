@@ -32,6 +32,47 @@
       "category": "cicd",
       "version": "v2.14.3",
       "icon": "git-branch"
+    },
+    {
+      "name": "istio",
+      "display_name": "Istio",
+      "description": "Service mesh for traffic management, security, and observability",
+      "category": "networking",
+      "version": "1.25.4",
+      "icon": "network"
+    },
+    {
+      "name": "kyverno",
+      "display_name": "Kyverno",
+      "description": "Kubernetes-native policy engine for validation and mutation",
+      "category": "security",
+      "version": "v1.17.1",
+      "icon": "shield"
+    },
+    {
+      "name": "loki",
+      "display_name": "Grafana Loki",
+      "description": "Horizontally-scalable log aggregation system",
+      "category": "monitoring",
+      "version": "v3.6.7",
+      "icon": "file-text"
+    },
+    {
+      "name": "longhorn",
+      "display_name": "Longhorn",
+      "description": "Cloud-native distributed block storage with replication and snapshots",
+      "category": "storage",
+      "version": "1.11.0",
+      "icon": "hard-drive"
+    },
+    {
+      "name": "rancher",
+      "display_name": "Rancher",
+      "description": "Multi-cluster Kubernetes management platform with web UI",
+      "category": "management",
+      "version": "2.13.3",
+      "icon": "layout-dashboard",
+      "requires": ["cert-manager"]
     }
   ]
 }
