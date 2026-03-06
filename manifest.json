@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "addons": [
+    {
+      "name": "cert-manager",
+      "display_name": "Cert Manager",
+      "description": "Automatic TLS certificate management with Let's Encrypt",
+      "category": "security",
+      "version": "v1.17.1",
+      "icon": "shield-check"
+    },
+    {
+      "name": "ingress-nginx",
+      "display_name": "Ingress NGINX",
+      "description": "Production-grade ingress controller for Kubernetes",
+      "category": "networking",
+      "version": "v1.12.1",
+      "icon": "globe"
+    },
+    {
+      "name": "metrics-server",
+      "display_name": "Metrics Server",
+      "description": "Cluster-wide resource metrics for autoscaling and monitoring",
+      "category": "monitoring",
+      "version": "v0.7.2",
+      "icon": "bar-chart"
+    },
+    {
+      "name": "argocd",
+      "display_name": "Argo CD",
+      "description": "Declarative GitOps continuous delivery for Kubernetes",
+      "category": "cicd",
+      "version": "v2.14.3",
+      "icon": "git-branch"
+    }
+  ]
+}
