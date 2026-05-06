@@ -73,6 +73,14 @@
       "version": "2.13.3",
       "icon": "layout-dashboard",
       "requires": ["cert-manager"]
+    },
+    {
+      "name": "haproxy",
+      "display_name": "HAProxy Ingress",
+      "description": "High-performance HTTP/TCP ingress controller and load balancer",
+      "category": "networking",
+      "version": "1.41.4",
+      "icon": "shuffle"
     }
   ]
 }
