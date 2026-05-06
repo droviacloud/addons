@@ -1,39 +1,29 @@
-# HAProxy Kubernetes Ingress Controller
+# HAProxy Kubernetes Ingress
 
 High-performance HTTP/TCP load balancer and ingress controller, maintained by HAProxy Technologies.
 
+Manifest gerado a partir do helm chart oficial `haproxytech/kubernetes-ingress` (Apache 2.0), com versões pinadas pra stack Drovia DKE.
+
 ## Version
 
-1.41.4 (helm chart) — installs HAProxy 3.0.x
+- Helm chart: `haproxytech/kubernetes-ingress` 1.49.0
+- HAProxy Ingress Controller image: `haproxytech/kubernetes-ingress:3.2.6`
 
 ## What it does
 
-- L7 ingress (HTTP/HTTPS) with path/host routing, TLS termination
-- L4 TCP ingress for non-HTTP services
-- Native Prometheus metrics, runtime API, dynamic config reload
-- Alternative to NGINX Ingress with lower latency at high RPS
+- L7 ingress (HTTP/HTTPS) com path/host routing, TLS termination
+- L4 TCP ingress para serviços não-HTTP
+- Service `haproxy-ingress` tipo `LoadBalancer` (drovia-ccm aloca IP do pool público)
+- IngressClass `haproxy` registrada não-default — coexiste com `nginx`
 
-## Prerequisites
+## Resources criados
 
-- Kubernetes 1.25+
-- Helm 3.x available on the cluster
-- A LoadBalancer-capable provider (drovia-ccm em DKE)
-
-## Configuration
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `HAPROXY_VERSION` | `1.41.4` | Helm chart version (`haproxytech/kubernetes-ingress`) |
-
-To override the chart version:
-
-```bash
-HAPROXY_VERSION=1.42.0 ./install.sh
-```
-
-## IngressClass
-
-This addon registers `haproxy` as a non-default IngressClass. Coexists with `nginx` (ingress-nginx) — choose per Ingress via `ingressClassName`.
+- Namespace `haproxy-controller`
+- ServiceAccount + ClusterRole + ClusterRoleBinding
+- ConfigMap (config inicial do HAProxy)
+- Deployment + Service (LoadBalancer)
+- IngressClass (`haproxy`)
+- Job de bootstrap (criação de assets)
 
 ## Post-install
 
@@ -57,16 +47,32 @@ spec:
                   number: 80
 ```
 
-LoadBalancer IP is allocated by drovia-ccm via the public IP pool.
+## Prerequisites
 
-## Notes
+- Kubernetes 1.25+
+- LoadBalancer-capable provider (drovia-ccm em DKE)
 
-- Default ingress class is NOT set (`ingressClassResource.default=false`) to avoid conflicts when both `nginx` and `haproxy` are installed
-- HAProxy controller listens on 80/443 (HTTP/HTTPS) and 1024 (stats)
-- For TCP ingress, see [official docs](https://www.haproxy.com/documentation/kubernetes-ingress/community/configuration-reference/tcp-services/)
+## Como atualizar este addon
+
+```bash
+helm repo add haproxytech https://haproxytech.github.io/helm-charts
+helm repo update haproxytech
+
+helm template haproxy-ingress haproxytech/kubernetes-ingress \
+  --version <NOVA_VERSAO> \
+  --namespace haproxy-controller \
+  --set controller.service.type=LoadBalancer \
+  --set controller.ingressClass=haproxy \
+  --set controller.ingressClassResource.name=haproxy \
+  --set controller.ingressClassResource.default=false \
+  > /tmp/haproxy.yaml
+
+# Prepend Namespace (helm template não emite com --create-namespace)
+# e commitar como app.yaml
+```
 
 ## Resources
 
-- [Helm chart](https://github.com/haproxytech/helm-charts/tree/main/kubernetes-ingress)
-- [Official docs](https://www.haproxy.com/documentation/kubernetes-ingress/community/)
+- [HAProxy Kubernetes Ingress docs](https://www.haproxy.com/documentation/kubernetes-ingress/community/)
 - [GitHub](https://github.com/haproxytech/kubernetes-ingress)
+- [Helm chart](https://github.com/haproxytech/helm-charts/tree/main/kubernetes-ingress)

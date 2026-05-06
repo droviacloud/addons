@@ -79,7 +79,7 @@
       "display_name": "HAProxy Ingress",
       "description": "High-performance HTTP/TCP ingress controller and load balancer",
       "category": "networking",
-      "version": "1.41.4",
+      "version": "3.2.6",
       "icon": "shuffle"
     }
   ]
